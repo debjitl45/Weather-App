@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling while the loader is visible */
+}
+
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007bff;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 1s ease-out; /* Add transition for fade-out effect */
+}
+
+.preloader.fade-out {
+    opacity: 0;
+    pointer-events: none; /* Ensure preloader is not interactable when faded out */
+}
+
+.preloader .loader {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #fff;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.container {
+    display: none; /* Initially hide the container */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: auto;
+    padding: 20px;
+}
+
+.weather-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.weather-card h2 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.weather-card p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.weather-card .highlight {
+    font-size: 24px;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+    .weather-card {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .weather-card p {
+        font-size: 14px;
+    }
+
+    .weather-card .highlight {
+        font-size: 20px;
+    }
+}
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Simulate loading time for demonstration purposes
+            setTimeout(function() {
+                const preloader = document.querySelector(".preloader");
+                preloader.classList.add("fade-out");
+                setTimeout(function() {
+                    preloader.style.display = "none";
+                    document.body.style.overflow = "auto"; // Re-enable scrolling after the loader is hidden
+                    document.querySelector(".container").style.display = "flex"; // Show the main content
+                }, 1000); // Match this timeout with the CSS transition duration
+            }, 2000);
+        });
+    </script>
+</head>
+<body>
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+     <div class="container">
+        <div class="weather-card">
+            <h2>{{ data['city'] }}, {{ data['country_code'] }}</h2>
+            <p>Temperature: <span class="highlight">{{ data['temp'] }}</span></p>
+            <p>Pressure: <span class="highlight">{{ data['pressure'] }} millibars</span></p>
+            <p>Humidity: <span class="highlight">{{ data['humidity'] }}%</span></p>
+        </div>
+    </div>
+</body>
+</html>
